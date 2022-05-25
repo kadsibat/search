@@ -7,9 +7,15 @@ const Filter = () => {
   const [genderstate, setGenderState] = useState("");
   const [lang, setLang] = useState([]);
   const [allLangs, setAllLangs] = useState([
+    "CHINESE",
+    "GERMAN",
+    "FRENCH",
     "ENGLISH",
-    "Turkey",
-    "German",
+    "PERSIAN",
+    "KOREAN",
+    "RUSSIAN",
+    "ARABIC",
+    "TURKEY",
   ])
 
 useEffect(() => {
@@ -26,7 +32,7 @@ useEffect(() => {
   };
 
   const langChange = (e) => {
-    setLang([...lang,lang=e]);
+    setLang([...lang,lang=0]);
   };
 
   return (
@@ -47,7 +53,7 @@ useEffect(() => {
             id="dp1"
             data-bs-toggle="dropdown"
             aria-expanded="false"
-    
+  
           >
             Languages
           </div>
