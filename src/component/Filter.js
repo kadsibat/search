@@ -2,31 +2,57 @@ import React, { useEffect, useState } from "react";
 import { BsSearch } from "react-icons/bs";
 import "./Filter.scss";
 
+// const langs = [
+//   {lang:"English", idCont:false},
+//   {lang:"Turkish", idCont:false},
+//   {lang:"Spanish", idCont:false},
+//   {lang:"German", idCont:false},
+// ]
+
 const Filter = () => {
   const [arama, setArama] = useState("");
-  const [genderstate, setGenderState] = useState("");
-  const [lang, setLang] = useState([]);
-  const [allLangs, setAllLangs] = useState([
-    "ENGLISH",
-    "Turkey",
-    "German",
-  ])
+  const [genderstate, setGenderState] = useState([
+    { id: 1, gender: "Male", isSelect: false },
+    { id: 2, gender: "Female", isSelect: false },
+  ]);
+  const [state, setState] = useState([
+    { id: 1, lang: "English", isSelect: false, img: "" },
+    { id: 2, lang: "Spanish", isSelect: false, img: "" },
+    { id: 3, lang: "Turkish", isSelect: false, img: "" },
+    { id: 4, lang: "German", isSelect: false, img: "" },
+    { id: 5, lang: "Italian", isSelect: false, img: "" },
+  ]);
 
-useEffect(() => {
- console.log(genderstate);
-}, [genderstate])
+  const [ortak,setOrtak] = useState()
 
+  useEffect(() => {
+    const controlLang = state.filter((e) => e.isSelect === true)
+    const controlGender = genderstate.filter((e) => e.isSelect === true)
+    setOrtak([...controlLang,...controlGender,{search : arama}])
+  }, [state,genderstate,arama]);
+  console.log(ortak);
   const handleChange = (e) => {
     e.preventDefault();
     setArama(e.target.value);
   };
 
-  const genderChange = (gender) => {
-    setGenderState(gender);
+  const genderChange = (toogleId) => {
+    setGenderState(
+      genderstate.map((gender) =>
+        gender.id === toogleId
+          ? { ...gender, isSelect: !gender.isSelect }
+          : gender
+      )
+    );
   };
 
-  const langChange = (e) => {
-    setLang([...lang,lang=e]);
+  const langChange = (toogleId) => {
+    setState(
+      state.map((lang) =>
+        lang.id === toogleId ? { ...lang, isSelect: !lang.isSelect } : lang
+      )
+    );
+    console.log(state);
   };
 
   return (
@@ -47,15 +73,20 @@ useEffect(() => {
             id="dp1"
             data-bs-toggle="dropdown"
             aria-expanded="false"
-    
           >
             Languages
           </div>
-          <ul className="dropdown-menu dd-language" aria-labelledby="dp1">
-         {allLangs?.map((lang,key)=>
-           <li className="dropdown-item" key={key} onClick={()=>langChange({lang})}>{lang}</li>
-        )}
-         {/* <li>
+          <ol className="dropdown-menu dd-language" aria-labelledby="dp1">
+            {state?.map((item, index) => (
+              <li
+                className={`${item.isSelect ? "ok" : "no"} dropdown-item`}
+                key={index}
+                onClick={() => langChange(item.id)}
+              >
+                {item.lang}
+              </li>
+            ))}
+            {/* <li>
               <a className="dropdown-item" href="# " onClick={()=>genderChange("CHINESE")}> <img src="./img/cn.png" alt="" /> CHINESE</a>
           </li>
           <li>
@@ -82,8 +113,7 @@ useEffect(() => {
           <li>
               <a className="dropdown-item" href="# " onClick={()=>genderChange("TURKISH")}> <img src="./img/cn.png" alt="" /> TURKISH</a>
           </li> */}
-
-          </ul>
+          </ol>
         </div>
         <div className="col-sm-4 col-6">
           {/* <select name="categoria" onChange={genderChange}>
@@ -99,19 +129,21 @@ useEffect(() => {
             id="dp2"
             data-bs-toggle="dropdown"
             aria-expanded="false"
-            
-            
           >
             Gender
           </div>
           <ul className="dropdown-menu" aria-labelledby="dp2">
-            <li>
-              <a className="dropdown-item" href="# " onClick={()=>genderChange("male")}>Male</a>
-            </li>
-
-            <li>
-              <a className="dropdown-item" href="# " onClick={()=>genderChange("famele")}>Female</a>
-            </li>
+            {genderstate?.map((item, index) => {
+              return (
+                <li
+                  className={`${item.isSelect ? "ok" : "no"} dropdown-item`}
+                  key={index}
+                  onClick={() => genderChange(item.id)}
+                >
+                  {item.gender}
+                </li>
+              );
+            })}
           </ul>
         </div>
 
@@ -132,6 +164,17 @@ useEffect(() => {
           </div>
         </div>
       </div>
+      {state
+        ?.filter((item) => item.isSelect === true)
+        .map((e) => {
+          return <h4>{e.lang}</h4>;
+        })}
+
+      {genderstate
+        ?.filter((item) => item.isSelect === true)
+        .map((e) => {
+          return <h4>{e.gender}</h4>;
+        })}
     </div>
   );
 };
