@@ -6,6 +6,7 @@ const Filter = () => {
   const [arama, setArama] = useState("");
   const [genderstate, setGenderState] = useState("");
   const [lang, setLang] = useState([]);
+  const [ortak, setOrtak] = useState([])
   const [allLangs, setAllLangs] = useState([
     "CHINESE",
     "GERMAN",
@@ -17,7 +18,7 @@ const Filter = () => {
     "ARABIC",
     "TURKEY",
   ])
-
+ console.log(lang);
 useEffect(() => {
  console.log(genderstate);
 }, [genderstate])
@@ -29,15 +30,19 @@ useEffect(() => {
 
   const genderChange = (gender) => {
     setGenderState(gender);
+    setOrtak([...ortak,gender])
+
   };
 
   const langChange = (e) => {
-    setLang([...lang,lang=0]);
+    setLang([...lang,e]);
+    setOrtak([...ortak,e])
   };
 
   return (
     <div className="filter">
-      {/* {console.log(allLangs)} */}
+      {console.log(allLangs)}
+      {console.log(ortak)}
       <div className="row">
         <div className="col-sm-4 col-6">
           {/* <select name="categoria" onChange={langChange}>
@@ -61,34 +66,7 @@ useEffect(() => {
          {allLangs?.map((lang,key)=>
            <li className="dropdown-item" key={key} onClick={()=>langChange({lang})}>{lang}</li>
         )}
-         {/* <li>
-              <a className="dropdown-item" href="# " onClick={()=>genderChange("CHINESE")}> <img src="./img/cn.png" alt="" /> CHINESE</a>
-          </li>
-          <li>
-              <a className="dropdown-item" href="# " onClick={()=>genderChange("GERMAN")}> <img src="./img/cn.png" alt="" /> GERMAN</a>
-          </li>
-          <li>
-              <a className="dropdown-item" href="# " onClick={()=>genderChange("FRENCH")}> <img src="./img/cn.png" alt="" /> FRENCH</a>
-          </li>
-          <li>
-              <a className="dropdown-item" href="# " onClick={()=>genderChange("ENGLISH")}> <img src="./img/cn.png" alt="" /> ENGLISH</a>
-          </li>
-          <li>
-              <a className="dropdown-item" href="# " onClick={()=>genderChange("PERSIAN")}> <img src="./img/cn.png" alt="" /> PERSIAN</a>
-          </li>
-          <li>
-              <a className="dropdown-item" href="# " onClick={()=>genderChange("KOREAN")}> <img src="./img/cn.png" alt="" /> KOREAN</a>
-          </li>
-          <li>
-              <a className="dropdown-item" href="# " onClick={()=>genderChange("RUSSIAN")}> <img src="./img/cn.png" alt="" /> RUSSIAN</a>
-          </li>
-          <li>
-              <a className="dropdown-item" href="# " onClick={()=>genderChange("ARABIC")}> <img src="./img/cn.png" alt="" /> ARABIC</a>
-          </li>
-          <li>
-              <a className="dropdown-item" href="# " onClick={()=>genderChange("TURKISH")}> <img src="./img/cn.png" alt="" /> TURKISH</a>
-          </li> */}
-
+    
           </ul>
         </div>
         <div className="col-sm-4 col-6">
